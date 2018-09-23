@@ -10,7 +10,8 @@ import UIKit
 
 class TodoeyListTableViewController: UITableViewController {
 
-    let items = ["Find Mike", "Buy Eggos", "Destory Demogoro", "Buy apple"]
+    var items = ["Find Mike", "Buy Eggos", "Destory Demogoro", "Buy apple"]
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.tableFooterView = UIView()
@@ -38,5 +39,22 @@ class TodoeyListTableViewController: UITableViewController {
             tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
         }
     }
+    
+    //MARK: Add New Item
 
+    @IBAction func addButtonPressed(_ sender: Any) {
+        var textField = UITextField()
+        let alert = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
+            print("Success!")
+            self.items.append(textField.text!)
+            self.tableView.reloadData()
+        }
+        alert.addTextField { (alertTextField) in
+            alertTextField.placeholder = "Create new item"
+            textField = alertTextField
+        }
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
+    }
 }
