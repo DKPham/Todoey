@@ -11,10 +11,15 @@ import UIKit
 class TodoeyListTableViewController: UITableViewController {
 
     var items = ["Find Mike", "Buy Eggos", "Destory Demogoro", "Buy apple"]
-
+    
+    let defaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.tableFooterView = UIView()
+        if let itemArray = defaults.array(forKey: "TodoListArray") as? [String] {
+            items = itemArray
+        }
     }
     
     // MARK: - Table view data source
@@ -48,6 +53,7 @@ class TodoeyListTableViewController: UITableViewController {
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
             print("Success!")
             self.items.append(textField.text!)
+            self.defaults.set(self.items, forKey: "TodoListArray")
             self.tableView.reloadData()
         }
         alert.addTextField { (alertTextField) in
